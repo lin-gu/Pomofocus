@@ -4,7 +4,6 @@
         <file>Icons/pause-button.png</file>
         <file>Icons/play_button_1.png</file>
         <file>Icons/play_button_2.png</file>
-        <file>Icons/promo_button.png</file>
         <file>Icons/settings_button.png</file>
         <file>Sounds/button_apply.wav</file>
         <file>Sounds/button_cancel.wav</file>
@@ -26,5 +25,7 @@
         <file>Sounds/ticking_mechanical_wall_clock.wav</file>
         <file>Sounds/ticking_rain.mp3</file>
         <file>Sounds/ticking_e_clock_slow.mp3</file>
+        <file>Icons/pomo_button_1.png</file>
+        <file>Icons/pomo_button_2.png</file>
     </qresource>
 </RCC>

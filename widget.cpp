@@ -13,6 +13,8 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    //设置图标
+    this->setWindowIcon(QIcon(":/Icons/pomo_button_1.png"));
 
     init();
 
@@ -80,8 +82,8 @@ Widget::Widget(QWidget *parent)
        //索引0就是"番茄时钟"页面
        ui->stackedWidget->setCurrentIndex(0);
        //加载原先页面的基本数据
-       _load_current_settings();
-       _update_settings_as_current();
+       _load_backup_settings();
+       _update_settings_as_backup();
        ui->tool_btn_clock->show();
        ui->settings_apply_btn->hide();
        ui->settings_cancel_btn->hide();
@@ -131,8 +133,13 @@ Widget::Widget(QWidget *parent)
         }
         else
         {
-            _promofocusFinished();
+            qDebug() << "next: _current_pomo_stage: " << _current_pomo_stage;
+            qDebug() << "next: __pomo_number: " << __pomo_number;
+            qDebug() << "next: _current_stage_timer: " << _current_stage_timer;
+
             timer->stop();
+            _promofocusFinished();
+
         }
     });
 
@@ -160,10 +167,14 @@ Widget::Widget(QWidget *parent)
         }
 
         //如果当前番茄阶段超出用户预设阶段就停止番茄钟 打印提示信息并停止计时
-        if(_current_promo_stage > __pomo_number)
+        if(_current_pomo_stage > __pomo_number)
         {
-            _promofocusFinished();
+            qDebug() << "timer: _current_pomo_stage: " << _current_pomo_stage;
+            qDebug() << "timer: __pomo_number: " << __pomo_number;
+            qDebug() << "timer: _current_stage_timer: " << _current_stage_timer;
             timer->stop();
+            _promofocusFinished();
+
         }
         else
         {
@@ -319,7 +330,8 @@ void Widget::_resetCurrentMaxTime()
 
 void Widget::_resetCurrentPromoStage()
 {
-    _current_promo_stage = _current_stage / 2 + 1;
+    _current_pomo_stage = _current_stage / 2 + 1;
+    qDebug() << "reset: _current_pomo_stage: " << _current_pomo_stage;
 }
 
 void Widget::_resetRoundProgressBar()
@@ -332,7 +344,7 @@ void Widget::_resetRoundProgressBar()
     _bar->setInnerDefaultTextStyle(RoundProgressBar::timeFloat);
     _bar->setRange(0, _current_max_time);
     _bar->setValue(_current_max_time);
-    if(_current_promo_stage <= __pomo_number)
+    if(_current_pomo_stage <= __pomo_number)
     {
         if(_is_working_timer)
         {
@@ -342,7 +354,7 @@ void Widget::_resetRoundProgressBar()
             _bar->setInnerColor(QColor(95,113,127),QColor(157,167,176));//灰色
             _bar->setDefaultTextColor(QColor(95,113,127));
             //_bar->setInnerColor(QColor(49, 177, 190),QColor(133, 243, 244));//青色
-            _bar->setToptitle(QString("%1/%2").arg(_current_promo_stage).arg(__pomo_number));
+            _bar->setToptitle(QString("%1/%2").arg(_current_pomo_stage).arg(__pomo_number));
             _bar->setSubtitle("专注");
         }
         else
@@ -396,7 +408,7 @@ void Widget::_store_current_settings()
     _backup_ticking_sound_volume = __ticking_sound_volume;
 }
 
-void Widget::_load_current_settings()
+void Widget::_load_backup_settings()
 {
     __pomo_working_time_minutes = _backup_pomo_working_time_minutes;
     __pomo_working_time_seconds = _backup_pomo_working_time_seconds;
@@ -414,7 +426,7 @@ void Widget::_load_current_settings()
     __ticking_sound_volume = _backup_ticking_sound_volume;
 }
 
-void Widget::_update_settings_as_current()
+void Widget::_update_settings_as_backup()
 {
     ui->box_pomo_working_time_setting->setMunites(_backup_pomo_working_time_minutes);
     ui->box_pomo_working_time_setting->setSeconds(_backup_pomo_working_time_seconds);
@@ -457,7 +469,7 @@ QString Widget::_getSoundPath(SoundMap &sound_map, QString &sound_name)
     for(int i=0; i<sound_map.size(); ++i)
     {
         if(sound_map[i].first == sound_name)
-            return _ticking_sounds_map[i].second;
+            return sound_map[i].second;
     }
     return "";
 }

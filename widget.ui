@@ -120,7 +120,7 @@
      </property>
      <property name="icon">
       <iconset resource="res.qrc">
-       <normaloff>:/Icons/promo_button.png</normaloff>:/Icons/promo_button.png</iconset>
+       <normaloff>:/Icons/pomo_button_2.png</normaloff>:/Icons/pomo_button_2.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -148,7 +148,7 @@
       <number>0</number>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QGridLayout" name="gridLayout_4">

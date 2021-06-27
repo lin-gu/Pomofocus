@@ -93,7 +93,7 @@ private:
     double _current_stage_timer;
     int _current_max_time;
     int _current_stage = 0;
-    int _current_promo_stage;
+    int _current_pomo_stage;
 
     SoundMap _alarm_sounds_map;
     SoundMap _ticking_sounds_map;
@@ -111,8 +111,8 @@ private:
     void _promofocusFinished();
     void _moveToNextStage();
     void _store_current_settings();
-    void _load_current_settings();
-    void _update_settings_as_current();
+    void _load_backup_settings();
+    void _update_settings_as_backup();
 
 
     QString _getSoundPath(SoundMap &sound_map, QString &sound_name);

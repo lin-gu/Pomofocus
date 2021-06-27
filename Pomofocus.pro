@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,16 +10,24 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
+    minutessecondsbox.cpp \
     roundprogressbar.cpp \
+    soundscontrolpanel.cpp \
     spinsliderbox.cpp \
+    switchcontrol.cpp \
     widget.cpp
 
 HEADERS += \
+    minutessecondsbox.h \
     roundprogressbar.h \
+    soundscontrolpanel.h \
     spinsliderbox.h \
+    switchcontrol.h \
     widget.h
 
 FORMS += \
+    minutessecondsbox.ui \
+    soundscontrolpanel.ui \
     spinsliderbox.ui \
     widget.ui
 

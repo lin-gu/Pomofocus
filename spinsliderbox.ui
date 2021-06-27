@@ -44,6 +44,9 @@
    </item>
    <item>
     <widget class="QSpinBox" name="spinBox">
+     <property name="inputMethodHints">
+      <set>Qt::ImhNone</set>
+     </property>
      <property name="maximum">
       <number>120</number>
      </property>

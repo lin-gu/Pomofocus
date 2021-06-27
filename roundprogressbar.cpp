@@ -247,13 +247,12 @@ void RoundProgressBar::paintText(QPainter& painter)
         break;
     case timeFloat:
     {
-        int minute = static_cast<int>(qFloor(_value));
-        int second = static_cast<int>((_value - qFloor(_value)) * 60);
+        int minute = int(_value) / 60;
+        int second = int(_value) % 60;
         QString str = QString("%1:%2").arg(minute, 2, 10, QLatin1Char('0')).arg(second, 2, 10, QLatin1Char('0'));
         painter.drawText(_squareStart,_squareStart-_squareWidth/5,_squareWidth,_squareWidth,Qt::AlignCenter, _toptitle);
         painter.drawText(_squareStart,_squareStart,_squareWidth,_squareWidth,Qt::AlignCenter,str);
         painter.drawText(_squareStart,_squareStart+_squareWidth/5,_squareWidth,_squareWidth,Qt::AlignCenter, _subtitle);
-
         break;
     }
     default:

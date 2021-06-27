@@ -6,5 +6,25 @@
         <file>Icons/play_button_2.png</file>
         <file>Icons/promo_button.png</file>
         <file>Icons/settings_button.png</file>
+        <file>Sounds/button_apply.wav</file>
+        <file>Sounds/button_cancel.wav</file>
+        <file>Sounds/button_next.wav</file>
+        <file>Sounds/button_pause.wav</file>
+        <file>Sounds/button_start.wav</file>
+        <file>Sounds/button_settings.wav</file>
+        <file>Icons/cancel_button.png</file>
+        <file>Icons/apply_button.png</file>
+        <file>Sounds/alarm_army.wav</file>
+        <file>Sounds/alarm_clock.mp3</file>
+        <file>Sounds/alarm_digital_fast.mp3</file>
+        <file>Sounds/alarm_digital_slow.wav</file>
+        <file>Sounds/alarm_iphone_radar.wav</file>
+        <file>Sounds/alarm_music_fast.wav</file>
+        <file>Sounds/alarm_music_slow.wav</file>
+        <file>Sounds/ticking_clock_fast.mp3</file>
+        <file>Sounds/ticking_clock_slow.wav</file>
+        <file>Sounds/ticking_mechanical_wall_clock.wav</file>
+        <file>Sounds/ticking_rain.mp3</file>
+        <file>Sounds/ticking_e_clock_slow.mp3</file>
     </qresource>
 </RCC>

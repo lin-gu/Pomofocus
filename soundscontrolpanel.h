@@ -37,6 +37,9 @@ public:
     void on_selectedSound(const QString &text);
 
     void on_checkMaxPlayTime(qint64 position);
+    void on_durationChanged(qint64 duration);
+
+    qint64 getSoundDuration();
 
     QMediaPlayer *player;
 
@@ -47,6 +50,7 @@ private:
     Ui::SoundsControlPanel *ui;
     QMap<QString, QString> _name_path_map;
     QString _selected_sound_path;
+    qint64 _sound_duration;
 
 };
 

@@ -33,6 +33,8 @@ SoundsControlPanel::SoundsControlPanel(QWidget *parent) :
 
     //播放时把播放时间的改变监听起来 用来决定声音的最长试听时间
     connect(player, &QMediaPlayer::positionChanged, this, &SoundsControlPanel::on_checkMaxPlayTime);
+    //播放时把duration的改变监听 知道音频的总时间
+    connect(player, &QMediaPlayer::durationChanged, this, &SoundsControlPanel::on_durationChanged);
 }
 
 
@@ -156,4 +158,15 @@ void SoundsControlPanel::on_checkMaxPlayTime(qint64 position)
 {
     if(position / 1000 >  MAX_PLAY_TIME_IN_SECOND)
         player->stop();
+}
+
+void SoundsControlPanel::on_durationChanged(qint64 duration)
+{
+    duration = player->duration();
+    _sound_duration = duration;
+}
+
+qint64 SoundsControlPanel::getSoundDuration()
+{
+    return _sound_duration;
 }

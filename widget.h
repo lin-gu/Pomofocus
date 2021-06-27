@@ -98,8 +98,7 @@ private:
     SoundMap _alarm_sounds_map;
     SoundMap _ticking_sounds_map;
 
-    QMediaPlayer * _alarm_player;
-    QMediaPlayer * _ticking_player;
+    QMediaPlayer *_player;
 
 
     void _initAlarmSoundControlPanel();

@@ -107,7 +107,7 @@ Widget::Widget(QWidget *parent)
     connect(ui->tool_btn_pause, &QToolButton::clicked, [=](){
         pauseBtnSound->play();
         timer->stop();
-        _ticking_player->stop();
+        _player->stop();
     });
 
     //点击"快进"按钮 进入下一个阶段
@@ -133,10 +133,6 @@ Widget::Widget(QWidget *parent)
         }
         else
         {
-            qDebug() << "next: _current_pomo_stage: " << _current_pomo_stage;
-            qDebug() << "next: __pomo_number: " << __pomo_number;
-            qDebug() << "next: _current_stage_timer: " << _current_stage_timer;
-
             timer->stop();
             _promofocusFinished();
 
@@ -169,9 +165,6 @@ Widget::Widget(QWidget *parent)
         //如果当前番茄阶段超出用户预设阶段就停止番茄钟 打印提示信息并停止计时
         if(_current_pomo_stage > __pomo_number)
         {
-            qDebug() << "timer: _current_pomo_stage: " << _current_pomo_stage;
-            qDebug() << "timer: __pomo_number: " << __pomo_number;
-            qDebug() << "timer: _current_stage_timer: " << _current_stage_timer;
             timer->stop();
             _promofocusFinished();
 
@@ -200,9 +193,8 @@ void Widget::init()
     _ts_auto_start_break = new SwitchControl(this);
     _ts_auto_start_working = new SwitchControl(this);
 
-    //初始化闹铃播放器
-    _alarm_player = new QMediaPlayer;
-    _ticking_player = new QMediaPlayer;
+    //初始化播放器
+    _player = new QMediaPlayer;
 
     loadDefaultSettings();
     //加载默认拨动开关
@@ -331,7 +323,6 @@ void Widget::_resetCurrentMaxTime()
 void Widget::_resetCurrentPromoStage()
 {
     _current_pomo_stage = _current_stage / 2 + 1;
-    qDebug() << "reset: _current_pomo_stage: " << _current_pomo_stage;
 }
 
 void Widget::_resetRoundProgressBar()
@@ -373,6 +364,7 @@ void Widget::_resetRoundProgressBar()
 
 void Widget::_promofocusFinished()
 {
+    _shutup();
     QMessageBox::information(this, "完成番茄计划", "太棒了！你完成了整整" + QString::number(__pomo_number) + "个番茄的计划");
     loadValuesFromSettings();
     //第0个阶段
@@ -476,44 +468,43 @@ QString Widget::_getSoundPath(SoundMap &sound_map, QString &sound_name)
 
 void Widget::_playAlarmSound()
 {
-    _alarm_player->stop();
+    _player->stop();
     QString alarm_sound_path = getAlarmSoundPath(__alarm_sound_name);
     if(alarm_sound_path != "")
     {
+
         QMediaPlaylist *play_list = new QMediaPlaylist();
         for(int i=1; i<=__alarm_sound_repeat; ++i)
         {
             play_list->addMedia(QUrl(alarm_sound_path));
         }
         play_list->setPlaybackMode(QMediaPlaylist::Sequential);
-        _alarm_player->setPlaylist(play_list);
-        _alarm_player->setVolume(__alarm_sound_volume);
-        _alarm_player->play();
+        _player->setPlaylist(play_list);
+        _player->setVolume(__alarm_sound_volume);
+        _player->play();
     }
 }
 
 void Widget::_playTickingSound()
 {
-    _ticking_player->stop();
+    _player->stop();
     QString ticking_sound_path = getTickingSoundPath(__ticking_sound_name);
     if(ticking_sound_path != "")
     {
         QMediaPlaylist *play_list = new QMediaPlaylist();
         play_list->addMedia(QUrl(ticking_sound_path));
         play_list->setPlaybackMode(QMediaPlaylist::Loop);
-        _ticking_player->setPlaylist(play_list);
-        _ticking_player->setVolume(__ticking_sound_volume);
-        _ticking_player->play();
+        _player->setPlaylist(play_list);
+        _player->setVolume(__ticking_sound_volume);
+        _player->play();
     }
 }
 
 
 void Widget::_shutup()
 {
-    //停止播放闹铃
-    _alarm_player->stop();
-    //停止播放时钟
-    _ticking_player->stop();
+    //停止播放
+    _player->stop();
     //停止闹铃音乐控件的播放
     ui->alarm_sound_settings->player->stop();
     //停止时钟音乐控件的播放

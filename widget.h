@@ -55,6 +55,7 @@ private:
     RoundProgressBar* _bar;
     SwitchControl * _ts_auto_start_break;
     SwitchControl * _ts_auto_start_working;
+    QTimer *_timer;
 
     //用于存储设置界面用户指定的参数
     int __pomo_working_time_minutes = DEFAULT_PROMO_WORKING_TIME_MINUTES;
@@ -88,17 +89,28 @@ private:
     int _backup_alarm_sound_repeat;
     QString _backup_ticking_sound_name;
     int _backup_ticking_sound_volume;
+    int _backup_current_alarm_sound_repeat;
+    bool _backup_timer_is_active;
 
+
+    //不是专注就是休息
     bool _is_working_timer = true;
     double _current_stage_timer;
     int _current_max_time;
+    //从0开始计数 一个专注或者一个休息结束后 自加1
+    //比如4个番茄钟 它的值是：0 1 2 3 4 5 6 7
     int _current_stage = 0;
+    //从1开始计数 一个专注加上一个休息结束后 自加1
+    //比如4个番茄钟 它的值是：1 2 3 4
     int _current_pomo_stage;
+    int _current_alarm_sound_repeat;
+
 
     SoundMap _alarm_sounds_map;
     SoundMap _ticking_sounds_map;
 
     QMediaPlayer *_player;
+    QMediaPlayer::MediaStatus _player_status = QMediaPlayer::UnknownMediaStatus;
 
 
     void _initAlarmSoundControlPanel();
@@ -107,16 +119,19 @@ private:
     void _resetCurrentMaxTime();
     void _resetCurrentPromoStage();
     void _resetRoundProgressBar();
-    void _promofocusFinished();
+    void _pomofocusFinished();
     void _moveToNextStage();
     void _store_current_settings();
     void _load_backup_settings();
     void _update_settings_as_backup();
 
 
+
     QString _getSoundPath(SoundMap &sound_map, QString &sound_name);
     void _playAlarmSound();
+    void _loadAlarmSound();
     void _playTickingSound();
+    void _loadTickingSound();
     void _shutup();
 
 

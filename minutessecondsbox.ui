@@ -23,7 +23,7 @@
    <item row="0" column="3">
     <widget class="QSpinBox" name="secondsBox">
      <property name="maximum">
-      <number>60</number>
+      <number>59</number>
      </property>
     </widget>
    </item>

@@ -26,10 +26,10 @@ HEADERS += \
     Scenes/mainscene.h
 
 FORMS += \
-    Ui/mainscene.ui \
-    Ui/minutessecondsbox.ui \
-    Ui/soundscontrolpanel.ui \
-    Ui/spinsliderbox.ui
+    Components/minutessecondsbox.ui \
+    Components/soundscontrolpanel.ui \
+    Components/spinsliderbox.ui \
+    Scenes/mainscene.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

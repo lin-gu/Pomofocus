@@ -27,5 +27,6 @@
         <file>Sounds/ticking_e_clock_slow.mp3</file>
         <file>Icons/pomo_button_1.png</file>
         <file>Icons/pomo_button_2.png</file>
+        <file>Fonts/YuppySC-Regular.otf</file>
     </qresource>
 </RCC>

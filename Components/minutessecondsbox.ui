@@ -31,10 +31,10 @@
     <widget class="QLabel" name="timeSperator">
      <property name="font">
       <font>
-       <family>Hannotate SC</family>
-       <pointsize>14</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
+       <family>Yuppy SC</family>
+       <pointsize>12</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
       </font>
      </property>
      <property name="text">
@@ -49,10 +49,10 @@
     <widget class="QLabel" name="timeSperator_2">
      <property name="font">
       <font>
-       <family>Hannotate SC</family>
-       <pointsize>14</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
+       <family>Yuppy SC</family>
+       <pointsize>12</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
       </font>
      </property>
      <property name="text">

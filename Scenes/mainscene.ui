@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>472</width>
-    <height>734</height>
+    <width>475</width>
+    <height>752</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <property name="font">
       <font>
        <family>Yuppy SC</family>
-       <pointsize>14</pointsize>
+       <pointsize>12</pointsize>
       </font>
      </property>
      <property name="cursor">
@@ -48,7 +48,7 @@
      <property name="font">
       <font>
        <family>Yuppy SC</family>
-       <pointsize>14</pointsize>
+       <pointsize>12</pointsize>
       </font>
      </property>
      <property name="cursor">
@@ -80,7 +80,7 @@
      <property name="font">
       <font>
        <family>Yuppy SC</family>
-       <pointsize>14</pointsize>
+       <pointsize>12</pointsize>
       </font>
      </property>
      <property name="cursor">
@@ -122,7 +122,7 @@
       <number>0</number>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QGridLayout" name="gridLayout_3">
@@ -149,7 +149,7 @@
            <property name="font">
             <font>
              <family>Yuppy SC</family>
-             <pointsize>14</pointsize>
+             <pointsize>12</pointsize>
             </font>
            </property>
            <property name="cursor">
@@ -305,6 +305,7 @@
          <property name="font">
           <font>
            <family>Yuppy SC</family>
+           <pointsize>12</pointsize>
           </font>
          </property>
          <property name="text">
@@ -320,6 +321,7 @@
          <property name="font">
           <font>
            <family>Yuppy SC</family>
+           <pointsize>12</pointsize>
           </font>
          </property>
          <property name="text">
@@ -335,6 +337,7 @@
          <property name="font">
           <font>
            <family>Yuppy SC</family>
+           <pointsize>12</pointsize>
           </font>
          </property>
          <property name="text">
@@ -350,6 +353,7 @@
          <property name="font">
           <font>
            <family>Yuppy SC</family>
+           <pointsize>12</pointsize>
           </font>
          </property>
          <property name="text">
@@ -365,6 +369,7 @@
          <property name="font">
           <font>
            <family>Yuppy SC</family>
+           <pointsize>12</pointsize>
           </font>
          </property>
          <property name="text">
@@ -396,6 +401,7 @@
          <property name="font">
           <font>
            <family>Yuppy SC</family>
+           <pointsize>12</pointsize>
           </font>
          </property>
          <property name="text">
@@ -427,6 +433,7 @@
          <property name="font">
           <font>
            <family>Yuppy SC</family>
+           <pointsize>12</pointsize>
           </font>
          </property>
          <property name="text">
@@ -445,6 +452,7 @@
          <property name="font">
           <font>
            <family>Yuppy SC</family>
+           <pointsize>12</pointsize>
           </font>
          </property>
          <property name="text">

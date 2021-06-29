@@ -20,7 +20,7 @@
       <widget class="QLabel" name="labelVolume">
        <property name="font">
         <font>
-         <family>Hannotate SC</family>
+         <family>Yuppy SC</family>
          <pointsize>12</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -56,7 +56,7 @@
       <widget class="QLabel" name="repeatLabel">
        <property name="font">
         <font>
-         <family>Hannotate SC</family>
+         <family>Yuppy SC</family>
          <pointsize>12</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -77,7 +77,14 @@
     </layout>
    </item>
    <item row="0" column="0">
-    <widget class="QComboBox" name="soundsSelectBox"/>
+    <widget class="QComboBox" name="soundsSelectBox">
+     <property name="font">
+      <font>
+       <family>Yuppy SC</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

@@ -25,11 +25,14 @@
      <property name="cursor">
       <cursorShape>PointingHandCursor</cursorShape>
      </property>
+     <property name="toolTip">
+      <string/>
+     </property>
      <property name="text">
       <string>设置</string>
      </property>
      <property name="icon">
-      <iconset resource="res.qrc">
+      <iconset resource="../res.qrc">
        <normaloff>:/Icons/settings_button.png</normaloff>:/Icons/settings_button.png</iconset>
      </property>
      <property name="iconSize">
@@ -64,7 +67,7 @@
       <string>取消返回</string>
      </property>
      <property name="icon">
-      <iconset resource="res.qrc">
+      <iconset resource="../res.qrc">
        <normaloff>:/Icons/cancel_button.png</normaloff>:/Icons/cancel_button.png</iconset>
      </property>
      <property name="iconSize">
@@ -96,7 +99,7 @@
       <string>应用设置</string>
      </property>
      <property name="icon">
-      <iconset resource="res.qrc">
+      <iconset resource="../res.qrc">
        <normaloff>:/Icons/apply_button.png</normaloff>:/Icons/apply_button.png</iconset>
      </property>
      <property name="iconSize">
@@ -128,7 +131,7 @@
       <string>番茄钟</string>
      </property>
      <property name="icon">
-      <iconset resource="res.qrc">
+      <iconset resource="../res.qrc">
        <normaloff>:/Icons/pomo_button_2.png</normaloff>:/Icons/pomo_button_2.png</iconset>
      </property>
      <property name="iconSize">
@@ -176,7 +179,7 @@
           <string>暂停</string>
          </property>
          <property name="icon">
-          <iconset resource="res.qrc">
+          <iconset resource="../res.qrc">
            <normaloff>:/Icons/pause-button.png</normaloff>:/Icons/pause-button.png</iconset>
          </property>
          <property name="iconSize">
@@ -211,7 +214,7 @@
           <string>开始</string>
          </property>
          <property name="icon">
-          <iconset resource="res.qrc">
+          <iconset resource="../res.qrc">
            <normaloff>:/Icons/play_button_1.png</normaloff>:/Icons/play_button_1.png</iconset>
          </property>
          <property name="iconSize">
@@ -246,7 +249,7 @@
           <string>快进</string>
          </property>
          <property name="icon">
-          <iconset resource="res.qrc">
+          <iconset resource="../res.qrc">
            <normaloff>:/Icons/fast-forward-button.png</normaloff>:/Icons/fast-forward-button.png</iconset>
          </property>
          <property name="iconSize">
@@ -457,7 +460,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="res.qrc"/>
+  <include location="../res.qrc"/>
  </resources>
  <connections/>
 </ui>

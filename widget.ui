@@ -106,7 +106,7 @@
       </size>
      </property>
      <property name="shortcut">
-      <string>Return</string>
+      <string>Alt+A</string>
      </property>
      <property name="toolButtonStyle">
       <enum>Qt::ToolButtonTextUnderIcon</enum>
@@ -186,7 +186,7 @@
           </size>
          </property>
          <property name="shortcut">
-          <string>Space</string>
+          <string>Left</string>
          </property>
          <property name="toolButtonStyle">
           <enum>Qt::ToolButtonTextUnderIcon</enum>
@@ -221,7 +221,7 @@
           </size>
          </property>
          <property name="shortcut">
-          <string>Return</string>
+          <string>Space</string>
          </property>
          <property name="toolButtonStyle">
           <enum>Qt::ToolButtonTextUnderIcon</enum>

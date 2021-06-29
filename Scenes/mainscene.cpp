@@ -1,6 +1,5 @@
-#include "widget.h"
-#include "ui_widget.h"
-#include "toggleswitch.h"
+#include "Scenes/mainscene.h"
+#include "ui_mainscene.h"
 #include <QRandomGenerator>
 #include <QMessageBox>
 #include <QSound>
@@ -8,7 +7,7 @@
 #include <QDebug>
 #include <QMediaPlaylist>
 
-Widget::Widget(QWidget *parent)
+MainScene::MainScene(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
 {
@@ -19,8 +18,8 @@ Widget::Widget(QWidget *parent)
     init();
 
     // 连接拖动开关信号槽
-    connect(_ts_auto_start_break, &ToggleSwitch::toggled, this, &Widget::autoBreakOnToggled);
-    connect(_ts_auto_start_working, &ToggleSwitch::toggled, this, &Widget::autoWorkingOnToggled);
+    connect(_ts_auto_start_break, &ToggleSwitch::toggled, this, &MainScene::autoBreakOnToggled);
+    connect(_ts_auto_start_working, &ToggleSwitch::toggled, this, &MainScene::autoWorkingOnToggled);
 
     //初始化界面按钮音效
     QSound *applyBtnSound = new QSound(":/Sounds/button_apply.wav", this);
@@ -233,12 +232,12 @@ Widget::Widget(QWidget *parent)
 
 }
 
-Widget::~Widget()
+MainScene::~MainScene()
 {
     delete ui;
 }
 
-void Widget::init()
+void MainScene::init()
 {
     //初始化圆形进度条
     _bar=new RoundProgressBar(this);
@@ -272,7 +271,7 @@ void Widget::init()
     ui->gridLayout_auto_start_working->addWidget(_ts_auto_start_working, 1, 1, Qt::AlignCenter);
 }
 
-void Widget::loadDefaultSettings()
+void MainScene::loadDefaultSettings()
 {
     //加载默认值到设置界面
     ui->box_pomo_working_time_setting->setMunites(DEFAULT_PROMO_WORKING_TIME_MINUTES);
@@ -284,7 +283,7 @@ void Widget::loadDefaultSettings()
     ui->box_pomo_number_setting->setValue(DEFAULT_PROMO_NUMBER);
 }
 
-void Widget::_loadDefaultToggleSwitches()
+void MainScene::_loadDefaultToggleSwitches()
 {
     // 设置_ts_auto_start_break的状态、样式
     _ts_auto_start_break->setToggle(DEFAULT_AUTO_START_BREAK);
@@ -297,7 +296,7 @@ void Widget::_loadDefaultToggleSwitches()
     _ts_auto_start_working->setBackgroundColor(QColor(157,167,176));
 }
 
-void Widget::_initAlarmSoundControlPanel()
+void MainScene::_initAlarmSoundControlPanel()
 {
     //闹铃声音资源
     _alarm_sounds_map[1] = qMakePair(QString("无声音"), QString(""));
@@ -335,7 +334,7 @@ void Widget::_initAlarmSoundControlPanel()
     ui->ticking_sound_settings->hideRepeatLayout();
 }
 
-void Widget::loadValuesFromSettings()
+void MainScene::loadValuesFromSettings()
 {
     //从设置界面读取用户设置的值
     __pomo_working_time_minutes = ui->box_pomo_working_time_setting->getMunites();
@@ -355,7 +354,7 @@ void Widget::loadValuesFromSettings()
     _current_alarm_sound_repeat = __alarm_sound_repeat;
 }
 
-void Widget::reloadPromoClock()
+void MainScene::reloadPromoClock()
 {
     _resetCurrentPromoStage();
     _resetCurrentMaxTime();
@@ -363,24 +362,24 @@ void Widget::reloadPromoClock()
     _resetRoundProgressBar();
 }
 
-void Widget::_resetCurrentTimerValue()
+void MainScene::_resetCurrentTimerValue()
 {
     _current_stage_timer = _current_max_time;
 }
 
-void Widget::_resetCurrentMaxTime()
+void MainScene::_resetCurrentMaxTime()
 {
     _current_max_time = _is_working_timer ? (__pomo_working_time_minutes * 60 + __pomo_working_time_seconds) :
                         (_current_stage + 1 == __pomo_number * 2) ? (__pomo_long_rest_time_minutes * 60 + __pomo_long_rest_time_seconds) :
                         (__pomo_rest_time_minutes * 60 + __pomo_rest_time_seconds);
 }
 
-void Widget::_resetCurrentPromoStage()
+void MainScene::_resetCurrentPromoStage()
 {
     _current_pomo_stage = _current_stage / 2 + 1;
 }
 
-void Widget::_resetRoundProgressBar()
+void MainScene::_resetRoundProgressBar()
 {
     //*********************** RoundProgressBar ************************
     _bar->setdefault(90, false);
@@ -417,7 +416,7 @@ void Widget::_resetRoundProgressBar()
     }
 }
 
-void Widget::_pomofocusFinished()
+void MainScene::_pomofocusFinished()
 {
     //停止计时器
     _timer->stop();
@@ -434,7 +433,7 @@ void Widget::_pomofocusFinished()
     reloadPromoClock();
 }
 
-void Widget::_moveToNextStage()
+void MainScene::_moveToNextStage()
 {
     //阶段计数器自加
     ++_current_stage;
@@ -444,7 +443,7 @@ void Widget::_moveToNextStage()
     _current_alarm_sound_repeat = __alarm_sound_repeat;
 }
 
-void Widget::_store_current_settings()
+void MainScene::_store_current_settings()
 {
     _backup_pomo_working_time_minutes = __pomo_working_time_minutes;
     _backup_pomo_working_time_seconds = __pomo_working_time_seconds;
@@ -465,7 +464,7 @@ void Widget::_store_current_settings()
     _backup_current_alarm_sound_repeat = _current_alarm_sound_repeat;
 }
 
-void Widget::_load_backup_settings()
+void MainScene::_load_backup_settings()
 {
     __pomo_working_time_minutes = _backup_pomo_working_time_minutes;
     __pomo_working_time_seconds = _backup_pomo_working_time_seconds;
@@ -485,7 +484,7 @@ void Widget::_load_backup_settings()
     _current_alarm_sound_repeat = _backup_current_alarm_sound_repeat;
 }
 
-void Widget::_update_settings_as_backup()
+void MainScene::_update_settings_as_backup()
 {
     ui->box_pomo_working_time_setting->setMunites(_backup_pomo_working_time_minutes);
     ui->box_pomo_working_time_setting->setSeconds(_backup_pomo_working_time_seconds);
@@ -503,27 +502,27 @@ void Widget::_update_settings_as_backup()
     ui->ticking_sound_settings->setVolume(_backup_ticking_sound_volume);
 }
 
-void Widget::autoBreakOnToggled(bool bChecked)
+void MainScene::autoBreakOnToggled(bool bChecked)
 {
     __auto_start_break = bChecked;
 }
 
-void Widget::autoWorkingOnToggled(bool bChecked)
+void MainScene::autoWorkingOnToggled(bool bChecked)
 {
     __auto_start_working =  bChecked;
 }
 
-QString Widget::getAlarmSoundPath(QString &sound_name)
+QString MainScene::getAlarmSoundPath(QString &sound_name)
 {
     return _getSoundPath(_alarm_sounds_map, sound_name);
 }
 
-QString Widget::getTickingSoundPath(QString &sound_name)
+QString MainScene::getTickingSoundPath(QString &sound_name)
 {
     return _getSoundPath(_ticking_sounds_map, sound_name);
 }
 
-QString Widget::_getSoundPath(SoundMap &sound_map, QString &sound_name)
+QString MainScene::_getSoundPath(SoundMap &sound_map, QString &sound_name)
 {
     for(int i=0; i<sound_map.size(); ++i)
     {
@@ -533,7 +532,7 @@ QString Widget::_getSoundPath(SoundMap &sound_map, QString &sound_name)
     return "";
 }
 
-void Widget::_playAlarmSound()
+void MainScene::_playAlarmSound()
 {
     _loadAlarmSound();
     _player->setVolume(__ticking_sound_volume);
@@ -544,7 +543,7 @@ void Widget::_playAlarmSound()
     }
 }
 
-void Widget::_loadAlarmSound()
+void MainScene::_loadAlarmSound()
 {
     QString alarm_sound_path = getAlarmSoundPath(__alarm_sound_name);
     if(_player->media().canonicalUrl().toString() != alarm_sound_path)
@@ -556,7 +555,7 @@ void Widget::_loadAlarmSound()
     }
 }
 
-void Widget::_playTickingSound()
+void MainScene::_playTickingSound()
 {
     _loadTickingSound();
     _player->setVolume(__ticking_sound_volume);
@@ -564,7 +563,7 @@ void Widget::_playTickingSound()
       _player->play();
 }
 
-void Widget::_loadTickingSound()
+void MainScene::_loadTickingSound()
 {
     QString ticking_sound_path = getTickingSoundPath(__ticking_sound_name);
     if(_player->media().canonicalUrl().toString() != ticking_sound_path)
@@ -576,7 +575,7 @@ void Widget::_loadTickingSound()
     }
 }
 
-void Widget::_shutup()
+void MainScene::_shutup()
 {
     //停止播放
     _player->stop();

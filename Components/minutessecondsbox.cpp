@@ -1,4 +1,4 @@
-#include "minutessecondsbox.h"
+#include "Components/minutessecondsbox.h"
 #include "ui_minutessecondsbox.h"
 
 MinutesSecondsBox::MinutesSecondsBox(QWidget *parent) :

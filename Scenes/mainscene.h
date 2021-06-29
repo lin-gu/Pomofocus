@@ -1,13 +1,13 @@
-#ifndef WIDGET_H
-#define WIDGET_H
+#ifndef MAINSCENE_H
+#define MAINSCENE_H
 
 #include <QMediaPlayer>
 #include <QWidget>
 #include <QTimer>
 #include <QMap>
 
-#include "roundprogressbar.h"
-#include "toggleswitch.h"
+#include "Components/roundprogressbar.h"
+#include "Components/toggleswitch.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -29,15 +29,15 @@ QT_END_NAMESPACE
 #define DEFAULT_TICKING_SOUND_VOLUME 80
 #define DEFAULT_TICKING_SOUND_NAME "无声音"
 
-class Widget : public QWidget
+class MainScene : public QWidget
 {
     Q_OBJECT
 
 public:
     typedef QMap<int, QPair<QString, QString> > SoundMap;
 
-    Widget(QWidget *parent = nullptr);
-    ~Widget();
+    MainScene(QWidget *parent = nullptr);
+    ~MainScene();
 
     void init();
     void loadDefaultSettings();
@@ -136,4 +136,4 @@ private:
 
 
 };
-#endif // WIDGET_H
+#endif // MAINSCENE_H

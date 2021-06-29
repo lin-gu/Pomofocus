@@ -1,4 +1,4 @@
-﻿#include "soundscontrolpanel.h"
+﻿#include "Components/soundscontrolpanel.h"
 #include "ui_soundscontrolpanel.h"
 #include <QSpinBox>
 #include <QComboBox>

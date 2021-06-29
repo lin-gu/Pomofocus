@@ -1,4 +1,4 @@
-#include "spinsliderbox.h"
+#include "Components/spinsliderbox.h"
 #include "ui_spinsliderbox.h"
 #include <QSpinBox>
 

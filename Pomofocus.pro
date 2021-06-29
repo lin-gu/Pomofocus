@@ -9,27 +9,27 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    main.cpp \
-    minutessecondsbox.cpp \
-    roundprogressbar.cpp \
-    soundscontrolpanel.cpp \
-    spinsliderbox.cpp \
-    toggleswitch.cpp \
-    widget.cpp
+    Components/minutessecondsbox.cpp \
+    Components/roundprogressbar.cpp \
+    Components/soundscontrolpanel.cpp \
+    Components/spinsliderbox.cpp \
+    Components/toggleswitch.cpp \
+    Scenes/mainscene.cpp \
+    main.cpp
 
 HEADERS += \
-    minutessecondsbox.h \
-    roundprogressbar.h \
-    soundscontrolpanel.h \
-    spinsliderbox.h \
-    toggleswitch.h \
-    widget.h
+    Components/minutessecondsbox.h \
+    Components/roundprogressbar.h \
+    Components/soundscontrolpanel.h \
+    Components/spinsliderbox.h \
+    Components/toggleswitch.h \
+    Scenes/mainscene.h
 
 FORMS += \
-    minutessecondsbox.ui \
-    soundscontrolpanel.ui \
-    spinsliderbox.ui \
-    widget.ui
+    Ui/mainscene.ui \
+    Ui/minutessecondsbox.ui \
+    Ui/soundscontrolpanel.ui \
+    Ui/spinsliderbox.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

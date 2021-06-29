@@ -157,7 +157,7 @@
       <number>0</number>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QGridLayout" name="gridLayout_4">
@@ -440,19 +440,19 @@
   <customwidget>
    <class>SpinSliderBox</class>
    <extends>QWidget</extends>
-   <header location="global">spinsliderbox.h</header>
+   <header location="global">Components/spinsliderbox.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>MinutesSecondsBox</class>
    <extends>QWidget</extends>
-   <header location="global">minutessecondsbox.h</header>
+   <header location="global">Components/minutessecondsbox.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>SoundsControlPanel</class>
    <extends>QWidget</extends>
-   <header location="global">soundscontrolpanel.h</header>
+   <header location="global">Components/soundscontrolpanel.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

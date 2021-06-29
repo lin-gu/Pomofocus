@@ -1,6 +1,6 @@
 #include <QPainter>
 #include <QMouseEvent>
-#include "toggleswitch.h"
+#include "Components/toggleswitch.h"
 
 ToggleSwitch::ToggleSwitch(QWidget *parent)
     : QWidget(parent),

@@ -15,6 +15,7 @@ SOURCES += \
     Components/spinsliderbox.cpp \
     Components/toggleswitch.cpp \
     Scenes/mainscene.cpp \
+    Scenes/settingsscene.cpp \
     main.cpp
 
 HEADERS += \
@@ -23,13 +24,15 @@ HEADERS += \
     Components/soundscontrolpanel.h \
     Components/spinsliderbox.h \
     Components/toggleswitch.h \
-    Scenes/mainscene.h
+    Scenes/mainscene.h \
+    Scenes/settingsscene.h
 
 FORMS += \
     Components/minutessecondsbox.ui \
     Components/soundscontrolpanel.ui \
     Components/spinsliderbox.ui \
-    Scenes/mainscene.ui
+    Scenes/mainscene.ui \
+    Scenes/settingsscene.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

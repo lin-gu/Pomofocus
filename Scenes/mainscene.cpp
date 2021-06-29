@@ -37,6 +37,11 @@ MainScene::MainScene(QWidget *parent)
     ui->settings_apply_btn->hide();
     ui->settings_cancel_btn->hide();
 
+
+    //设置整体透明度
+//    this->setAttribute(Qt::WA_WState_WindowOpacitySet);
+//    setWindowOpacity(0.7);
+
     _timer = new QTimer(this);
 
     //点击"番茄时钟"按钮, 切换到"番茄时钟"页面
@@ -59,7 +64,7 @@ MainScene::MainScene(QWidget *parent)
         ui->settings_cancel_btn->show();
 
         //暂停计时
-        _timer->stop();
+        _stopTimer();
         //暂停声音
         _player->pause();
     });
@@ -106,27 +111,31 @@ MainScene::MainScene(QWidget *parent)
        //如果原来在运行，现在继续运行，原来的音频继续播放
        if(_backup_timer_is_active)
        {
-           _timer->start();
+           _startTimer();
            _player->play();
        }
     });
 
 
-    //点击"开始"按钮 计时器开始计时
-    connect(ui->tool_btn_start, &QToolButton::clicked, [=](){
-        startBtnSound->play();
+    //点击"开始"按钮 计时器开始计时 变成"暂停"按钮
+    //点击"暂停"按钮 计时器停止计时 变成"开始"按钮
+    connect(ui->tool_btn_start_pause, &QToolButton::clicked, [=](){
         if(!_timer->isActive())
-            _timer->start(DEFAULT_TIMER_INTERVAL);
-        if(_is_working_timer && _player->state() != QMediaPlayer::State::PlayingState)
-            _playTickingSound();
+        {
+            startBtnSound->play();
+            _startTimer();
+            if(_is_working_timer && _player->state() != QMediaPlayer::State::PlayingState)
+                _playTickingSound();
+        }
+        else
+        {
+            pauseBtnSound->play();
+            _stopTimer();
+            _player->pause();
+        }
+
     });
 
-    //点击"暂停"按钮 计时器开始计时
-    connect(ui->tool_btn_pause, &QToolButton::clicked, [=](){
-        pauseBtnSound->play();
-        _timer->stop();
-        _player->pause();
-    });
 
     //点击"快进"按钮 进入下一个阶段
     connect(ui->tool_btn_next, &QToolButton::clicked, [=](){
@@ -146,10 +155,10 @@ MainScene::MainScene(QWidget *parent)
 
             //根据设置的两个拖动开关决定是不是在进入下个阶段的时候停止计时器或者自动开始计时
             if((_is_working_timer && !__auto_start_working) || (!_is_working_timer && !__auto_start_break))
-              _timer->stop();
+                _stopTimer();
             if((_is_working_timer && __auto_start_working) || (!_is_working_timer && __auto_start_break))
             {
-              _timer->start();
+              _startTimer();
               if(_is_working_timer)
                   _playTickingSound();
             }
@@ -176,10 +185,10 @@ MainScene::MainScene(QWidget *parent)
 
             //根据设置的两个拖动开关决定是不是在进入下个阶段的时候停止计时器或者自动开始计时
             if((_is_working_timer && !__auto_start_working) || (!_is_working_timer && !__auto_start_break))
-              _timer->stop();
+              _stopTimer();
             if((_is_working_timer && __auto_start_working) || (!_is_working_timer && __auto_start_break))
             {
-              _timer->start();
+              _startTimer();
               if(_is_working_timer && _current_pomo_stage <= __pomo_number)
                   _playTickingSound();
             }
@@ -188,7 +197,7 @@ MainScene::MainScene(QWidget *parent)
         //如果当前番茄阶段超出用户预设阶段就停止番茄钟 打印提示信息并停止计时
         if(_current_pomo_stage > __pomo_number)
         {
-            _timer->stop();
+            _stopTimer();
             _pomofocusFinished();
         }
         else
@@ -586,5 +595,22 @@ void MainScene::_shutup()
 }
 
 
+void MainScene::_startTimer()
+{
+    _timer->start(DEFAULT_TIMER_INTERVAL);
+    ui->tool_btn_start_pause->setIcon(QIcon(":/Icons/pause_button.png"));
 
+    ui->tool_btn_start_pause->setText("暂停");
+     ui->tool_btn_start_pause->setShortcut(Qt::Key_Space);
+
+}
+void MainScene::_stopTimer()
+{
+    _timer->stop();
+    ui->tool_btn_start_pause->setIcon(QIcon(":/Icons/play_button_1.png"));
+
+    ui->tool_btn_start_pause->setText("开始");
+     ui->tool_btn_start_pause->setShortcut(Qt::Key_Space);
+
+}
 

@@ -50,6 +50,8 @@ public:
     QString getAlarmSoundPath(QString &sound_name);
     QString getTickingSoundPath(QString &sound_name);
 
+private slots:
+
 private:
     Ui::Widget *ui;
     RoundProgressBar* _bar;
@@ -112,6 +114,10 @@ private:
     QMediaPlayer *_player;
     QMediaPlayer::MediaStatus _player_status = QMediaPlayer::UnknownMediaStatus;
 
+
+    //计时器相关函数
+    void _startTimer();
+    void _stopTimer();
 
     void _initAlarmSoundControlPanel();
     void _loadDefaultToggleSwitches();

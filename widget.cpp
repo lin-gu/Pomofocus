@@ -1,6 +1,6 @@
 #include "widget.h"
 #include "ui_widget.h"
-#include "switchcontrol.h"
+#include "toggleswitch.h"
 #include <QRandomGenerator>
 #include <QMessageBox>
 #include <QSound>
@@ -19,8 +19,8 @@ Widget::Widget(QWidget *parent)
     init();
 
     // 连接拖动开关信号槽
-    connect(_ts_auto_start_break, &SwitchControl::toggled, this, &Widget::autoBreakOnToggled);
-    connect(_ts_auto_start_working, &SwitchControl::toggled, this, &Widget::autoWorkingOnToggled);
+    connect(_ts_auto_start_break, &ToggleSwitch::toggled, this, &Widget::autoBreakOnToggled);
+    connect(_ts_auto_start_working, &ToggleSwitch::toggled, this, &Widget::autoWorkingOnToggled);
 
     //初始化界面按钮音效
     QSound *applyBtnSound = new QSound(":/Sounds/button_apply.wav", this);
@@ -243,8 +243,8 @@ void Widget::init()
     //初始化圆形进度条
     _bar=new RoundProgressBar(this);
     //初始化设置页面的两个拨动开关
-    _ts_auto_start_break = new SwitchControl(this);
-    _ts_auto_start_working = new SwitchControl(this);
+    _ts_auto_start_break = new ToggleSwitch(this);
+    _ts_auto_start_working = new ToggleSwitch(this);
 
     //初始化播放器
     _player = new QMediaPlayer();

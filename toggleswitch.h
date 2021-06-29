@@ -1,15 +1,15 @@
-#ifndef SWITCH_CONTROL
-#define SWITCH_CONTROL
+#ifndef TOGGLE_SWITCH
+#define TOGGLE_SWITCH
 
 #include <QWidget>
 #include <QTimer>
 
-class SwitchControl : public QWidget
+class ToggleSwitch : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit SwitchControl(QWidget *parent = 0);
+    explicit ToggleSwitch(QWidget *parent = 0);
 
     // 返回开关状态 - 打开：true 关闭：false
     bool isToggled() const;
@@ -65,4 +65,4 @@ private:
     QTimer m_timer;          // 定时器
 };
 
-#endif // SWITCH_CONTROL
+#endif // TOGGLE_SWITCH

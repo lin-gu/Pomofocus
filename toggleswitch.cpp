@@ -1,8 +1,8 @@
 #include <QPainter>
 #include <QMouseEvent>
-#include "switchcontrol.h"
+#include "toggleswitch.h"
 
-SwitchControl::SwitchControl(QWidget *parent)
+ToggleSwitch::ToggleSwitch(QWidget *parent)
     : QWidget(parent),
       m_bChecked(false),
       m_background(Qt::black),
@@ -21,7 +21,7 @@ SwitchControl::SwitchControl(QWidget *parent)
 }
 
 // 绘制开关
-void SwitchControl::paintEvent(QPaintEvent *event)
+void ToggleSwitch::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
 
@@ -61,7 +61,7 @@ void SwitchControl::paintEvent(QPaintEvent *event)
 }
 
 // 鼠标按下事件
-void SwitchControl::mousePressEvent(QMouseEvent *event)
+void ToggleSwitch::mousePressEvent(QMouseEvent *event)
 {
     if (isEnabled()) {
         if (event->buttons() & Qt::LeftButton) {
@@ -73,7 +73,7 @@ void SwitchControl::mousePressEvent(QMouseEvent *event)
 }
 
 // 鼠标释放事件 - 切换开关状态、发射toggled()信号
-void SwitchControl::mouseReleaseEvent(QMouseEvent *event)
+void ToggleSwitch::mouseReleaseEvent(QMouseEvent *event)
 {
     if (isEnabled()) {
         if ((event->type() == QMouseEvent::MouseButtonRelease) && (event->button() == Qt::LeftButton)) {
@@ -88,7 +88,7 @@ void SwitchControl::mouseReleaseEvent(QMouseEvent *event)
 }
 
 // 大小改变事件
-void SwitchControl::resizeEvent(QResizeEvent *event)
+void ToggleSwitch::resizeEvent(QResizeEvent *event)
 {
     m_nX = m_nHeight / 2;
     m_nY = m_nHeight / 2;
@@ -96,19 +96,19 @@ void SwitchControl::resizeEvent(QResizeEvent *event)
 }
 
 // 默认大小
-QSize SwitchControl::sizeHint() const
+QSize ToggleSwitch::sizeHint() const
 {
     return minimumSizeHint();
 }
 
 // 最小大小
-QSize SwitchControl::minimumSizeHint() const
+QSize ToggleSwitch::minimumSizeHint() const
 {
     return QSize(2 * (m_nHeight + m_nMargin), m_nHeight + 2 * m_nMargin);
 }
 
 // 切换状态 - 滑动
-void SwitchControl::onTimeout()
+void ToggleSwitch::onTimeout()
 {
     if (m_bChecked) {
         m_nX += 1;
@@ -123,32 +123,32 @@ void SwitchControl::onTimeout()
 }
 
 // 返回开关状态 - 打开：true 关闭：false
-bool SwitchControl::isToggled() const
+bool ToggleSwitch::isToggled() const
 {
     return m_bChecked;
 }
 
 // 设置开关状态
-void SwitchControl::setToggle(bool checked)
+void ToggleSwitch::setToggle(bool checked)
 {
     m_bChecked = checked;
     m_timer.start(10);
 }
 
 // 设置背景颜色
-void SwitchControl::setBackgroundColor(QColor color)
+void ToggleSwitch::setBackgroundColor(QColor color)
 {
     m_background = color;
 }
 
 // 设置选中颜色
-void SwitchControl::setCheckedColor(QColor color)
+void ToggleSwitch::setCheckedColor(QColor color)
 {
     m_checkedColor = color;
 }
 
 // 设置不可用颜色
-void SwitchControl::setDisbaledColor(QColor color)
+void ToggleSwitch::setDisbaledColor(QColor color)
 {
     m_disabledColor = color;
 }

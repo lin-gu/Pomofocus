@@ -7,7 +7,7 @@
 #include <QMap>
 
 #include "roundprogressbar.h"
-#include "switchcontrol.h"
+#include "toggleswitch.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -53,8 +53,8 @@ public:
 private:
     Ui::Widget *ui;
     RoundProgressBar* _bar;
-    SwitchControl * _ts_auto_start_break;
-    SwitchControl * _ts_auto_start_working;
+    ToggleSwitch * _ts_auto_start_break;
+    ToggleSwitch * _ts_auto_start_working;
     QTimer *_timer;
 
     //用于存储设置界面用户指定的参数

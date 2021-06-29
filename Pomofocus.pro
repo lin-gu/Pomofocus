@@ -14,7 +14,7 @@ SOURCES += \
     roundprogressbar.cpp \
     soundscontrolpanel.cpp \
     spinsliderbox.cpp \
-    switchcontrol.cpp \
+    toggleswitch.cpp \
     widget.cpp
 
 HEADERS += \
@@ -22,7 +22,7 @@ HEADERS += \
     roundprogressbar.h \
     soundscontrolpanel.h \
     spinsliderbox.h \
-    switchcontrol.h \
+    toggleswitch.h \
     widget.h
 
 FORMS += \

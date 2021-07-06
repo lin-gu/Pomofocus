@@ -17,6 +17,7 @@ MainScene::MainScene(QWidget *parent)
 
     init();
 
+    ui->tool_btn_test->hide();
     // 连接拖动开关信号槽
     connect(_ts_auto_start_break, &ToggleSwitch::toggled, this, &MainScene::autoBreakOnToggled);
     connect(_ts_auto_start_working, &ToggleSwitch::toggled, this, &MainScene::autoWorkingOnToggled);
@@ -89,10 +90,57 @@ MainScene::MainScene(QWidget *parent)
        ui->ticking_sound_settings->player->stop();
     });
 
+    //点击"应用"按钮，切换到"番茄时钟"页面 加载setting的数据
+    connect(_settingsScene, &SettingsScene::applyBtnClicked, [=](){
+       //索引0就是"番茄时钟"页面
+       this->show();
+       ui->stackedWidget->setCurrentIndex(0);
+       //从"设置"页面获取基本数据
+       loadValuesFromSettings();
+       _current_stage = 0;
+       _is_working_timer = true;
+       reloadPromoClock();
+       ui->tool_btn_clock->show();
+       ui->settings_apply_btn->hide();
+       ui->settings_cancel_btn->hide();
+
+       //停止闹铃音乐控件的播放
+       ui->alarm_sound_settings->player->stop();
+       //停止时钟音乐控件的播放
+       ui->ticking_sound_settings->player->stop();
+    });
+
     //点击"取消"按钮，切换到"番茄时钟"页面 加载原先数据
     connect(ui->settings_cancel_btn, &QToolButton::clicked, [=](){
        cancelBtnSound->play();
        //索引0就是"番茄时钟"页面
+       ui->stackedWidget->setCurrentIndex(0);
+       //加载原先页面的基本数据到当前
+       _load_backup_settings();
+       //设置界面由于被取消 要加载为原先备份的值
+       _update_settings_as_backup();
+       //显示番茄钟按钮 隐藏应用和取消按钮
+       ui->tool_btn_clock->show();
+       ui->settings_apply_btn->hide();
+       ui->settings_cancel_btn->hide();
+
+       //停止闹铃音乐控件的播放
+       ui->alarm_sound_settings->player->stop();
+       //停止时钟音乐控件的播放
+       ui->ticking_sound_settings->player->stop();
+
+       //如果原来在运行，现在继续运行，原来的音频继续播放
+       if(_backup_timer_is_active)
+       {
+           _startTimer();
+           _player->play();
+       }
+    });
+
+    //点击"取消"按钮，切换到"番茄时钟"页面 加载原先数据
+    connect(_settingsScene, &SettingsScene::cancelBtnClicked, [=](){
+       //索引0就是"番茄时钟"页面
+       this->show();
        ui->stackedWidget->setCurrentIndex(0);
        //加载原先页面的基本数据到当前
        _load_backup_settings();
@@ -145,7 +193,7 @@ MainScene::MainScene(QWidget *parent)
         _player->stop();
         _moveToNextStage();
         //如果阶段在用户预设范围内就重新加载番茄钟 超出范围就整体停止番茄钟
-        if(_current_stage  < __pomo_number * 2)
+        if(_current_stage  < __settings_data.pomo_number * 2)
         {
             //重新加载番茄钟
             reloadPromoClock();
@@ -154,9 +202,11 @@ MainScene::MainScene(QWidget *parent)
                 _playAlarmSound();
 
             //根据设置的两个拖动开关决定是不是在进入下个阶段的时候停止计时器或者自动开始计时
-            if((_is_working_timer && !__auto_start_working) || (!_is_working_timer && !__auto_start_break))
+            if((_is_working_timer && !__settings_data.auto_start_working) ||
+              (!_is_working_timer && !__settings_data.auto_start_break))
                 _stopTimer();
-            if((_is_working_timer && __auto_start_working) || (!_is_working_timer && __auto_start_break))
+            if((_is_working_timer && __settings_data.auto_start_working) ||
+              (!_is_working_timer && __settings_data.auto_start_break))
             {
               _startTimer();
               if(_is_working_timer)
@@ -165,7 +215,7 @@ MainScene::MainScene(QWidget *parent)
         }
         else
         {
-            _timer->stop();
+            _stopTimer();
             _pomofocusFinished();
 
         }
@@ -184,18 +234,20 @@ MainScene::MainScene(QWidget *parent)
                 _playAlarmSound();
 
             //根据设置的两个拖动开关决定是不是在进入下个阶段的时候停止计时器或者自动开始计时
-            if((_is_working_timer && !__auto_start_working) || (!_is_working_timer && !__auto_start_break))
+            if((_is_working_timer && !__settings_data.auto_start_working) ||
+              (!_is_working_timer && !__settings_data.auto_start_break))
               _stopTimer();
-            if((_is_working_timer && __auto_start_working) || (!_is_working_timer && __auto_start_break))
+            if((_is_working_timer && __settings_data.auto_start_working) ||
+              (!_is_working_timer && __settings_data.auto_start_break))
             {
               _startTimer();
-              if(_is_working_timer && _current_pomo_stage <= __pomo_number)
+              if(_is_working_timer && _current_pomo_stage <= __settings_data.pomo_number)
                   _playTickingSound();
             }
         }
 
         //如果当前番茄阶段超出用户预设阶段就停止番茄钟 打印提示信息并停止计时
-        if(_current_pomo_stage > __pomo_number)
+        if(_current_pomo_stage > __settings_data.pomo_number)
         {
             _stopTimer();
             _pomofocusFinished();
@@ -223,8 +275,8 @@ MainScene::MainScene(QWidget *parent)
                 //休息时间要判断一下是否有音乐被选择了 并且用户选择了连续播放次数大于1 当前重复播放次数没有用完
                 else
                 {
-                    if(__alarm_sound_name != DEFAULT_ALARM_SOUND_NAME &&
-                       __alarm_sound_repeat > 1 &&
+                    if(__settings_data.alarm_sound_name != DEFAULT_ALARM_SOUND_NAME &&
+                       __settings_data.alarm_sound_repeat > 1 &&
                        _current_alarm_sound_repeat >= 0)
                     {
                         _player->play();
@@ -248,6 +300,11 @@ MainScene::~MainScene()
 
 void MainScene::init()
 {
+    //初始化设置界面
+    _settingsScene = new SettingsScene;
+    //初始化内存设置数据
+    __settings_data.loadDefault();
+
     //初始化圆形进度条
     _bar=new RoundProgressBar(this);
     //初始化设置页面的两个拨动开关
@@ -346,21 +403,21 @@ void MainScene::_initAlarmSoundControlPanel()
 void MainScene::loadValuesFromSettings()
 {
     //从设置界面读取用户设置的值
-    __pomo_working_time_minutes = ui->box_pomo_working_time_setting->getMunites();
-    __pomo_working_time_seconds = ui->box_pomo_working_time_setting->getSeconds();
-    __pomo_rest_time_minutes = ui->box_pomo_rest_time_setting->getMunites();
-    __pomo_rest_time_seconds = ui->box_pomo_rest_time_setting->getSeconds();
-    __pomo_long_rest_time_minutes = ui->box_pomo_long_rest_time_setting->getMunites();
-    __pomo_long_rest_time_seconds = ui->box_pomo_long_rest_time_setting->getSeconds();
-    __pomo_number = ui->box_pomo_number_setting->getValue();
-    __alarm_sound_name = ui->alarm_sound_settings->getSoundName();
-    __alarm_sound_volume = ui->alarm_sound_settings->getVolume();
-    __alarm_sound_repeat = ui->alarm_sound_settings->getRepeat();
-    __ticking_sound_name = ui->ticking_sound_settings->getSoundName();
-    __ticking_sound_volume = ui->ticking_sound_settings->getVolume();
+    __settings_data.pomo_working_time_minutes = ui->box_pomo_working_time_setting->getMunites();
+    __settings_data.pomo_working_time_seconds = ui->box_pomo_working_time_setting->getSeconds();
+    __settings_data.pomo_rest_time_minutes = ui->box_pomo_rest_time_setting->getMunites();
+    __settings_data.pomo_rest_time_seconds = ui->box_pomo_rest_time_setting->getSeconds();
+    __settings_data.pomo_long_rest_time_minutes = ui->box_pomo_long_rest_time_setting->getMunites();
+    __settings_data.pomo_long_rest_time_seconds = ui->box_pomo_long_rest_time_setting->getSeconds();
+    __settings_data.pomo_number = ui->box_pomo_number_setting->getValue();
+    __settings_data.alarm_sound_name = ui->alarm_sound_settings->getSoundName();
+    __settings_data.alarm_sound_volume = ui->alarm_sound_settings->getVolume();
+    __settings_data.alarm_sound_repeat = ui->alarm_sound_settings->getRepeat();
+    __settings_data.ticking_sound_name = ui->ticking_sound_settings->getSoundName();
+    __settings_data.ticking_sound_volume = ui->ticking_sound_settings->getVolume();
 
      //从设置界面读取用户设置的闹铃声音重复计数器
-    _current_alarm_sound_repeat = __alarm_sound_repeat;
+    _current_alarm_sound_repeat = __settings_data.alarm_sound_repeat;
 }
 
 void MainScene::reloadPromoClock()
@@ -378,9 +435,9 @@ void MainScene::_resetCurrentTimerValue()
 
 void MainScene::_resetCurrentMaxTime()
 {
-    _current_max_time = _is_working_timer ? (__pomo_working_time_minutes * 60 + __pomo_working_time_seconds) :
-                        (_current_stage + 1 == __pomo_number * 2) ? (__pomo_long_rest_time_minutes * 60 + __pomo_long_rest_time_seconds) :
-                        (__pomo_rest_time_minutes * 60 + __pomo_rest_time_seconds);
+    _current_max_time = _is_working_timer ? (__settings_data.pomo_working_time_minutes * 60 + __settings_data.pomo_working_time_seconds) :
+                        (_current_stage + 1 == __settings_data.pomo_number * 2) ? (__settings_data.pomo_long_rest_time_minutes * 60 + __settings_data.pomo_long_rest_time_seconds) :
+                        (__settings_data.pomo_rest_time_minutes * 60 + __settings_data.pomo_rest_time_seconds);
 }
 
 void MainScene::_resetCurrentPromoStage()
@@ -398,7 +455,7 @@ void MainScene::_resetRoundProgressBar()
     _bar->setInnerDefaultTextStyle(RoundProgressBar::timeFloat);
     _bar->setRange(0, _current_max_time);
     _bar->setValue(_current_max_time);
-    if(_current_pomo_stage <= __pomo_number)
+    if(_current_pomo_stage <= __settings_data.pomo_number)
     {
         if(_is_working_timer)
         {
@@ -408,7 +465,7 @@ void MainScene::_resetRoundProgressBar()
             _bar->setInnerColor(QColor(95,113,127),QColor(157,167,176));//灰色
             _bar->setDefaultTextColor(QColor(95,113,127));
             //_bar->setInnerColor(QColor(49, 177, 190),QColor(133, 243, 244));//青色
-            _bar->setToptitle(QString("%1/%2").arg(_current_pomo_stage).arg(__pomo_number));
+            _bar->setToptitle(QString("%1/%2").arg(_current_pomo_stage).arg(__settings_data.pomo_number));
             _bar->setSubtitle("专注");
         }
         else
@@ -417,7 +474,7 @@ void MainScene::_resetRoundProgressBar()
             //_bar->setInnerColor(QColor(255,190,57),QColor(255,230,129)); //黄色
             _bar->setInnerColor(QColor(152,180,117),QColor(192,220,147)); //绿色
             _bar->setDefaultTextColor(QColor(152,180,117));
-            if(_current_stage + 1 == __pomo_number * 2)
+            if(_current_stage + 1 == __settings_data.pomo_number * 2)
                 _bar->setSubtitle("长休息");
             else
                 _bar->setSubtitle("休息");
@@ -432,7 +489,7 @@ void MainScene::_pomofocusFinished()
     //停止播放声音
     _player->stop();
     //提升完成对话框
-    QMessageBox::information(this, "完成番茄计划", "太棒了！你完成了整整" + QString::number(__pomo_number) + "个番茄的计划");
+    QMessageBox::information(this, "完成番茄计划", "太棒了！你完成了整整" + QString::number(__settings_data.pomo_number) + "个番茄的计划");
     //重新加载设置数据
     loadValuesFromSettings();
     //重置为第0个阶段
@@ -449,25 +506,12 @@ void MainScene::_moveToNextStage()
     //切换工作/休息状态
     _is_working_timer = !_is_working_timer;
     //从新加载闹铃计数器的值
-    _current_alarm_sound_repeat = __alarm_sound_repeat;
+    _current_alarm_sound_repeat = __settings_data.alarm_sound_repeat;
 }
 
 void MainScene::_store_current_settings()
 {
-    _backup_pomo_working_time_minutes = __pomo_working_time_minutes;
-    _backup_pomo_working_time_seconds = __pomo_working_time_seconds;
-    _backup_pomo_rest_time_minutes = __pomo_rest_time_minutes;
-    _backup_pomo_rest_time_seconds = __pomo_rest_time_seconds;
-    _backup_pomo_long_rest_time_minutes = __pomo_long_rest_time_minutes;
-    _backup_pomo_long_rest_time_seconds = __pomo_long_rest_time_seconds;
-    _backup_pomo_number = __pomo_number;
-    _backup_auto_start_break = __auto_start_break;
-    _backup_auto_start_working = __auto_start_working;
-    _backup_alarm_sound_name = __alarm_sound_name;
-    _backup_alarm_sound_volume = __alarm_sound_volume;
-    _backup_alarm_sound_repeat = __alarm_sound_repeat;
-    _backup_ticking_sound_name = __ticking_sound_name;
-    _backup_ticking_sound_volume = __ticking_sound_volume;
+    _settings_data_snapshot = __settings_data;
     _backup_timer_is_active = _timer->isActive();
 
     _backup_current_alarm_sound_repeat = _current_alarm_sound_repeat;
@@ -475,50 +519,37 @@ void MainScene::_store_current_settings()
 
 void MainScene::_load_backup_settings()
 {
-    __pomo_working_time_minutes = _backup_pomo_working_time_minutes;
-    __pomo_working_time_seconds = _backup_pomo_working_time_seconds;
-    __pomo_rest_time_minutes = _backup_pomo_rest_time_minutes;
-    __pomo_rest_time_seconds = _backup_pomo_rest_time_seconds;
-    __pomo_long_rest_time_minutes = _backup_pomo_long_rest_time_minutes;
-    __pomo_long_rest_time_seconds = _backup_pomo_long_rest_time_seconds;
-    __pomo_number = _backup_pomo_number;
-    __auto_start_break = _backup_auto_start_break;
-    __auto_start_working = _backup_auto_start_working;
-    __alarm_sound_name = _backup_alarm_sound_name;
-    __alarm_sound_volume = _backup_alarm_sound_volume;
-    __alarm_sound_repeat = _backup_alarm_sound_repeat;
-    __ticking_sound_name = _backup_ticking_sound_name;
-    __ticking_sound_volume = _backup_ticking_sound_volume;
+    __settings_data = _settings_data_snapshot;
 
     _current_alarm_sound_repeat = _backup_current_alarm_sound_repeat;
 }
 
 void MainScene::_update_settings_as_backup()
 {
-    ui->box_pomo_working_time_setting->setMunites(_backup_pomo_working_time_minutes);
-    ui->box_pomo_working_time_setting->setSeconds(_backup_pomo_working_time_seconds);
-    ui->box_pomo_rest_time_setting->setMunites(_backup_pomo_rest_time_minutes);
-    ui->box_pomo_rest_time_setting->setSeconds(_backup_pomo_rest_time_seconds);
-    ui->box_pomo_long_rest_time_setting->setMunites(_backup_pomo_long_rest_time_minutes);
-    ui->box_pomo_long_rest_time_setting->setSeconds(_backup_pomo_long_rest_time_seconds);
-    ui->box_pomo_number_setting->setValue(_backup_pomo_number);
-    _ts_auto_start_break->setToggle(_backup_auto_start_break);
-    _ts_auto_start_working->setToggle(_backup_auto_start_working);
-    ui->alarm_sound_settings->setSoundName(_backup_alarm_sound_name);
-    ui->alarm_sound_settings->setVolume(_backup_alarm_sound_volume);
-    ui->alarm_sound_settings->setRepeat(_backup_alarm_sound_repeat);
-    ui->ticking_sound_settings->setSoundName(_backup_ticking_sound_name);
-    ui->ticking_sound_settings->setVolume(_backup_ticking_sound_volume);
+    ui->box_pomo_working_time_setting->setMunites(_settings_data_snapshot.pomo_working_time_minutes);
+    ui->box_pomo_working_time_setting->setSeconds(_settings_data_snapshot.pomo_working_time_seconds);
+    ui->box_pomo_rest_time_setting->setMunites(_settings_data_snapshot.pomo_rest_time_minutes);
+    ui->box_pomo_rest_time_setting->setSeconds(_settings_data_snapshot.pomo_rest_time_seconds);
+    ui->box_pomo_long_rest_time_setting->setMunites(_settings_data_snapshot.pomo_long_rest_time_minutes);
+    ui->box_pomo_long_rest_time_setting->setSeconds(_settings_data_snapshot.pomo_long_rest_time_seconds);
+    ui->box_pomo_number_setting->setValue(_settings_data_snapshot.pomo_number);
+    _ts_auto_start_break->setToggle(_settings_data_snapshot.auto_start_break);
+    _ts_auto_start_working->setToggle(_settings_data_snapshot.auto_start_working);
+    ui->alarm_sound_settings->setSoundName(_settings_data_snapshot.alarm_sound_name);
+    ui->alarm_sound_settings->setVolume(_settings_data_snapshot.alarm_sound_volume);
+    ui->alarm_sound_settings->setRepeat(_settings_data_snapshot.alarm_sound_repeat);
+    ui->ticking_sound_settings->setSoundName(_settings_data_snapshot.ticking_sound_name);
+    ui->ticking_sound_settings->setVolume(_settings_data_snapshot.ticking_sound_volume);
 }
 
 void MainScene::autoBreakOnToggled(bool bChecked)
 {
-    __auto_start_break = bChecked;
+    __settings_data.auto_start_break = bChecked;
 }
 
 void MainScene::autoWorkingOnToggled(bool bChecked)
 {
-    __auto_start_working =  bChecked;
+    __settings_data.auto_start_working =  bChecked;
 }
 
 QString MainScene::getAlarmSoundPath(QString &sound_name)
@@ -543,45 +574,63 @@ QString MainScene::_getSoundPath(SoundMap &sound_map, QString &sound_name)
 
 void MainScene::_playAlarmSound()
 {
-    _loadAlarmSound();
-    _player->setVolume(__ticking_sound_volume);
-    if(_player->state() != QMediaPlayer::PlayingState)
+    if(_loadAlarmSound())
     {
-      _player->play();
-      _current_alarm_sound_repeat --;
-    }
-}
-
-void MainScene::_loadAlarmSound()
-{
-    QString alarm_sound_path = getAlarmSoundPath(__alarm_sound_name);
-    if(_player->media().canonicalUrl().toString() != alarm_sound_path)
-    {
-        if(alarm_sound_path != "")
+        _player->setVolume(__settings_data.ticking_sound_volume);
+        if(_player->state() != QMediaPlayer::PlayingState)
         {
-            _player->setMedia(QUrl(alarm_sound_path));
+          _player->play();
+          _current_alarm_sound_repeat --;
         }
     }
 }
 
-void MainScene::_playTickingSound()
+bool MainScene::_loadAlarmSound()
 {
-    _loadTickingSound();
-    _player->setVolume(__ticking_sound_volume);
-    if(_player->state() != QMediaPlayer::PlayingState)
-      _player->play();
+    QString alarm_sound_path = getAlarmSoundPath(__settings_data.alarm_sound_name);
+    //如果player当前加载的音频和用户设置的不一样 就尝试加载
+    if(_player->media().canonicalUrl().toString() != alarm_sound_path)
+    {
+        //如果用户设置了音频就要播放
+        if(alarm_sound_path != "")
+        {
+            _player->setMedia(QUrl(alarm_sound_path));
+            return true;
+        }
+        //如果用户没有设置音频 就不要播放
+        else
+        {
+            return false;
+        }
+    }
+    //如果当前已经加载的音频和用户设置的一样 也要播放 但是没必要重新加载
+    return true;
 }
 
-void MainScene::_loadTickingSound()
+void MainScene::_playTickingSound()
 {
-    QString ticking_sound_path = getTickingSoundPath(__ticking_sound_name);
+    if(_loadTickingSound())
+    {
+        _player->setVolume(__settings_data.ticking_sound_volume);
+        if(_player->state() != QMediaPlayer::PlayingState)
+          _player->play();
+    }
+}
+
+bool MainScene::_loadTickingSound()
+{
+    QString ticking_sound_path = getTickingSoundPath(__settings_data.ticking_sound_name);
     if(_player->media().canonicalUrl().toString() != ticking_sound_path)
     {
         if(ticking_sound_path != "")
         {
             _player->setMedia(QUrl(ticking_sound_path));
+            return true;
         }
+        else
+            return false;
     }
+    return true;
 }
 
 void MainScene::_shutup()
@@ -614,3 +663,13 @@ void MainScene::_stopTimer()
 
 }
 
+
+void MainScene::on_tool_btn_test_clicked()
+{
+    //在切换到_settingsScene场景之前 设置_settingsScene场景的位置为当前主场景的位置
+    _settingsScene->setGeometry(this->geometry());
+    //隐藏当前主场景
+    this->hide();
+    //显示settingsScene场景
+    _settingsScene->show();
+}

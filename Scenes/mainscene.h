@@ -8,6 +8,7 @@
 
 #include "Components/roundprogressbar.h"
 #include "Components/toggleswitch.h"
+#include "Scenes/settingsscene.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -33,6 +34,42 @@ class MainScene : public QWidget
 {
     Q_OBJECT
 
+    struct SettingsData
+    {
+        int pomo_working_time_minutes;
+        int pomo_working_time_seconds;
+        int pomo_rest_time_minutes;
+        int pomo_rest_time_seconds;
+        int pomo_long_rest_time_minutes;
+        int pomo_long_rest_time_seconds;
+        int pomo_number;
+        bool auto_start_break;
+        bool auto_start_working;
+        QString alarm_sound_name;
+        int alarm_sound_volume;
+        int alarm_sound_repeat;
+        QString ticking_sound_name;
+        int ticking_sound_volume;
+
+        void loadDefault()
+        {
+            pomo_working_time_minutes = DEFAULT_PROMO_WORKING_TIME_MINUTES;
+            pomo_working_time_seconds = DEFAULT_PROMO_WORKING_TIME_SECONDS;
+            pomo_rest_time_minutes = DEFAULT_PROMO_REST_TIME_MINUTES;
+            pomo_rest_time_seconds = DEFAULT_PROMO_REST_TIME_SECONDS;
+            pomo_long_rest_time_minutes = DEFAULT_PROMO_LONG_REST_TIME_MINUTES;
+            pomo_long_rest_time_seconds = DEFAULT_PROMO_LONG_REST_TIME_SECONDS;
+            pomo_number = DEFAULT_PROMO_NUMBER;
+            auto_start_break = DEFAULT_AUTO_START_BREAK;
+            auto_start_working = DEFAULT_AUTO_START_WORKING;
+            alarm_sound_name = DEFAULT_ALARM_SOUND_NAME;
+            alarm_sound_volume = DEFAULT_ALARM_SOUND_VOLUME;
+            alarm_sound_repeat = DEFAULT_ALARM_SOUND_REPEAT;
+            ticking_sound_name = DEFAULT_TICKING_SOUND_NAME;
+            ticking_sound_volume = DEFAULT_TICKING_SOUND_VOLUME;
+        }
+    };
+
 public:
     typedef QMap<int, QPair<QString, QString> > SoundMap;
 
@@ -52,45 +89,52 @@ public:
 
 private slots:
 
+    void on_tool_btn_test_clicked();
+
 private:
     Ui::Widget *ui;
     RoundProgressBar* _bar;
     ToggleSwitch * _ts_auto_start_break;
     ToggleSwitch * _ts_auto_start_working;
-    QTimer *_timer;
+    QTimer * _timer;
+    SettingsScene * _settingsScene;
+    SettingsData __settings_data;
+    SettingsData _settings_data_snapshot;
 
     //用于存储设置界面用户指定的参数
-    int __pomo_working_time_minutes = DEFAULT_PROMO_WORKING_TIME_MINUTES;
-    int __pomo_working_time_seconds = DEFAULT_PROMO_WORKING_TIME_SECONDS;
-    int __pomo_rest_time_minutes = DEFAULT_PROMO_REST_TIME_MINUTES;
-    int __pomo_rest_time_seconds = DEFAULT_PROMO_REST_TIME_SECONDS;
-    int __pomo_long_rest_time_minutes = DEFAULT_PROMO_LONG_REST_TIME_MINUTES;
-    int __pomo_long_rest_time_seconds = DEFAULT_PROMO_LONG_REST_TIME_SECONDS;
-    int __pomo_number = DEFAULT_PROMO_NUMBER;
-    bool __auto_start_break = DEFAULT_AUTO_START_BREAK;
-    bool __auto_start_working = DEFAULT_AUTO_START_WORKING;
-    QString __alarm_sound_name = DEFAULT_ALARM_SOUND_NAME;
-    int __alarm_sound_volume = DEFAULT_ALARM_SOUND_VOLUME;
-    int __alarm_sound_repeat = DEFAULT_ALARM_SOUND_REPEAT;
-    QString __ticking_sound_name = DEFAULT_TICKING_SOUND_NAME;
-    int __ticking_sound_volume = DEFAULT_TICKING_SOUND_VOLUME;
+//    int __pomo_working_time_minutes = DEFAULT_PROMO_WORKING_TIME_MINUTES;
+//    int __pomo_working_time_seconds = DEFAULT_PROMO_WORKING_TIME_SECONDS;
+//    int __pomo_rest_time_minutes = DEFAULT_PROMO_REST_TIME_MINUTES;
+//    int __pomo_rest_time_seconds = DEFAULT_PROMO_REST_TIME_SECONDS;
+//    int __pomo_long_rest_time_minutes = DEFAULT_PROMO_LONG_REST_TIME_MINUTES;
+//    int __pomo_long_rest_time_seconds = DEFAULT_PROMO_LONG_REST_TIME_SECONDS;
+//    int __pomo_number = DEFAULT_PROMO_NUMBER;
+//    bool __auto_start_break = DEFAULT_AUTO_START_BREAK;
+//    bool __auto_start_working = DEFAULT_AUTO_START_WORKING;
+//    QString __alarm_sound_name = DEFAULT_ALARM_SOUND_NAME;
+//    int __alarm_sound_volume = DEFAULT_ALARM_SOUND_VOLUME;
+//    int __alarm_sound_repeat = DEFAULT_ALARM_SOUND_REPEAT;
+//    QString __ticking_sound_name = DEFAULT_TICKING_SOUND_NAME;
+//    int __ticking_sound_volume = DEFAULT_TICKING_SOUND_VOLUME;
 
 
     //临时备份正在运行的设置参数
-    int _backup_pomo_working_time_minutes;
-    int _backup_pomo_working_time_seconds;
-    int _backup_pomo_rest_time_minutes;
-    int _backup_pomo_rest_time_seconds;
-    int _backup_pomo_long_rest_time_minutes;
-    int _backup_pomo_long_rest_time_seconds;
-    int _backup_pomo_number;
-    bool _backup_auto_start_break;
-    bool _backup_auto_start_working;
-    QString _backup_alarm_sound_name;
-    int _backup_alarm_sound_volume;
-    int _backup_alarm_sound_repeat;
-    QString _backup_ticking_sound_name;
-    int _backup_ticking_sound_volume;
+//    int _backup_pomo_working_time_minutes;
+//    int _backup_pomo_working_time_seconds;
+//    int _backup_pomo_rest_time_minutes;
+//    int _backup_pomo_rest_time_seconds;
+//    int _backup_pomo_long_rest_time_minutes;
+//    int _backup_pomo_long_rest_time_seconds;
+//    int _backup_pomo_number;
+//    bool _backup_auto_start_break;
+//    bool _backup_auto_start_working;
+//    QString _backup_alarm_sound_name;
+//    int _backup_alarm_sound_volume;
+//    int _backup_alarm_sound_repeat;
+//    QString _backup_ticking_sound_name;
+//    int _backup_ticking_sound_volume;
+
+
     int _backup_current_alarm_sound_repeat;
     bool _backup_timer_is_active;
 
@@ -135,9 +179,9 @@ private:
 
     QString _getSoundPath(SoundMap &sound_map, QString &sound_name);
     void _playAlarmSound();
-    void _loadAlarmSound();
+    bool _loadAlarmSound();
     void _playTickingSound();
-    void _loadTickingSound();
+    bool _loadTickingSound();
     void _shutup();
 
 

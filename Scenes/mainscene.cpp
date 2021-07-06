@@ -576,7 +576,7 @@ void MainScene::_playAlarmSound()
 {
     if(_loadAlarmSound())
     {
-        _player->setVolume(__settings_data.ticking_sound_volume);
+        _player->setVolume(__settings_data.alarm_sound_volume);
         if(_player->state() != QMediaPlayer::PlayingState)
         {
           _player->play();

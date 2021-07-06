@@ -41,3 +41,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     res.qrc
+
+DISTFILES += \
+    Logo/pomofocus_logo.ico
+
+RC_ICONS = Logo\pomofocus_logo.ico

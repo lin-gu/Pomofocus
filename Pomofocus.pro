@@ -24,6 +24,7 @@ HEADERS += \
     Components/soundscontrolpanel.h \
     Components/spinsliderbox.h \
     Components/toggleswitch.h \
+    Includes/SettingsData.h \
     Scenes/mainscene.h \
     Scenes/settingsscene.h
 

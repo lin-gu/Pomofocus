@@ -13,9 +13,269 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
-   <item row="1" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_5">
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tb_basic_settings">
+      <attribute name="title">
+       <string>基本设置</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="1" column="1">
+        <widget class="MinutesSecondsBox" name="box_pomo_rest_time_setting" native="true"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_pomo_long_rest_time">
+         <property name="font">
+          <font>
+           <family>Yuppy SC</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>番茄长休息时间</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_auto_start_break">
+         <property name="font">
+          <font>
+           <family>Yuppy SC</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>番茄休息计时自动开始</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_pomo_rest_time">
+         <property name="font">
+          <font>
+           <family>Yuppy SC</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>番茄休息时间</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="MinutesSecondsBox" name="box_pomo_long_rest_time_setting" native="true"/>
+       </item>
+       <item row="4" column="1">
+        <layout class="QGridLayout" name="gridLayout_auto_start_working">
+         <property name="leftMargin">
+          <number>10</number>
+         </property>
+         <property name="topMargin">
+          <number>10</number>
+         </property>
+         <property name="rightMargin">
+          <number>10</number>
+         </property>
+         <property name="bottomMargin">
+          <number>10</number>
+         </property>
+         <property name="spacing">
+          <number>-1</number>
+         </property>
+        </layout>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_auto_start_working">
+         <property name="font">
+          <font>
+           <family>Yuppy SC</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>番茄专注计时自动开始</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <layout class="QGridLayout" name="gridLayout_auto_start_break">
+         <property name="leftMargin">
+          <number>10</number>
+         </property>
+         <property name="topMargin">
+          <number>10</number>
+         </property>
+         <property name="rightMargin">
+          <number>10</number>
+         </property>
+         <property name="bottomMargin">
+          <number>10</number>
+         </property>
+         <property name="spacing">
+          <number>-1</number>
+         </property>
+        </layout>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_pomo_number">
+         <property name="font">
+          <font>
+           <family>Yuppy SC</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>番茄钟个数</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="SpinSliderBox" name="box_pomo_number_setting" native="true"/>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_pomo_working_time">
+         <property name="font">
+          <font>
+           <family>Yuppy SC</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>番茄专注时间</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="MinutesSecondsBox" name="box_pomo_working_time_setting" native="true"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tb_sounds_settings">
+      <attribute name="title">
+       <string>音频设置</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QLabel" name="label_working_alarm_sound">
+             <property name="font">
+              <font>
+               <family>Yuppy SC</family>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>专注结束后闹铃声音设置</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="SoundsControlPanel" name="working_alarm_sound_settings" native="true"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QLabel" name="label_rest_alarm_sound">
+             <property name="font">
+              <font>
+               <family>Yuppy SC</family>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>休息结束后闹铃声音设置</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="SoundsControlPanel" name="rest_alarm_sound_settings" native="true"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QLabel" name="label_ticking_sound">
+             <property name="font">
+              <font>
+               <family>Yuppy SC</family>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>时钟走表声音设置</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="SoundsControlPanel" name="ticking_sound_settings" native="true"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="layout_btns">
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
@@ -43,6 +303,9 @@
          <width>32</width>
          <height>32</height>
         </size>
+       </property>
+       <property name="shortcut">
+        <string>Backspace</string>
        </property>
        <property name="toolButtonStyle">
         <enum>Qt::ToolButtonTextUnderIcon</enum>
@@ -77,6 +340,9 @@
          <height>32</height>
         </size>
        </property>
+       <property name="shortcut">
+        <string>Alt+A</string>
+       </property>
        <property name="toolButtonStyle">
         <enum>Qt::ToolButtonTextUnderIcon</enum>
        </property>
@@ -96,195 +362,6 @@
       </spacer>
      </item>
     </layout>
-   </item>
-   <item row="0" column="0">
-    <widget class="QTabWidget" name="tabWidget">
-     <property name="currentIndex">
-      <number>1</number>
-     </property>
-     <widget class="QWidget" name="tb_sounds_settings">
-      <attribute name="title">
-       <string>基本设置</string>
-      </attribute>
-      <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_pomo_working_time">
-         <property name="font">
-          <font>
-           <family>Yuppy SC</family>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>番茄专注时间</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="MinutesSecondsBox" name="box_pomo_working_time_setting" native="true"/>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_pomo_rest_time">
-         <property name="font">
-          <font>
-           <family>Yuppy SC</family>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>番茄休息时间</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="MinutesSecondsBox" name="box_pomo_rest_time_setting" native="true"/>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_pomo_long_rest_time">
-         <property name="font">
-          <font>
-           <family>Yuppy SC</family>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>番茄长休息时间</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="MinutesSecondsBox" name="box_pomo_long_rest_time_setting" native="true"/>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_pomo_number">
-         <property name="font">
-          <font>
-           <family>Yuppy SC</family>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>番茄钟个数</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="SpinSliderBox" name="box_pomo_number_setting" native="true"/>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_auto_start_working">
-         <property name="font">
-          <font>
-           <family>Yuppy SC</family>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>番茄专注计时自动开始</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <layout class="QGridLayout" name="gridLayout_auto_start_working">
-         <property name="leftMargin">
-          <number>10</number>
-         </property>
-         <property name="topMargin">
-          <number>10</number>
-         </property>
-         <property name="rightMargin">
-          <number>10</number>
-         </property>
-         <property name="bottomMargin">
-          <number>10</number>
-         </property>
-         <property name="spacing">
-          <number>-1</number>
-         </property>
-        </layout>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_auto_start_break">
-         <property name="font">
-          <font>
-           <family>Yuppy SC</family>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>番茄休息计时自动开始</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <layout class="QGridLayout" name="gridLayout_auto_start_break">
-         <property name="leftMargin">
-          <number>10</number>
-         </property>
-         <property name="topMargin">
-          <number>10</number>
-         </property>
-         <property name="rightMargin">
-          <number>10</number>
-         </property>
-         <property name="bottomMargin">
-          <number>10</number>
-         </property>
-         <property name="spacing">
-          <number>-1</number>
-         </property>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tb_basic_settings">
-      <attribute name="title">
-       <string>音频设置</string>
-      </attribute>
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <item>
-          <widget class="QLabel" name="label_alarm_sound">
-           <property name="font">
-            <font>
-             <family>Yuppy SC</family>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>闹铃声音设置</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="SoundsControlPanel" name="alarm_sound_settings" native="true"/>
-         </item>
-        </layout>
-       </item>
-       <item row="1" column="0">
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QLabel" name="label_ticking_sound">
-           <property name="font">
-            <font>
-             <family>Yuppy SC</family>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>时钟声音设置</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="SoundsControlPanel" name="ticking_sound_settings" native="true"/>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-    </widget>
    </item>
   </layout>
  </widget>

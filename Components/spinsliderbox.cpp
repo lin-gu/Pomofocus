@@ -26,8 +26,20 @@ void SpinSliderBox::setValue(int value)
 {
     ui->spinBox->setValue(value);
 }
+
 int SpinSliderBox::getValue()
 {
     return ui->spinBox->value();
 }
 
+void SpinSliderBox::setMax(int max)
+{
+    ui->spinBox->setMaximum(max);
+    ui->horizontalSlider->setMaximum(max);
+}
+
+void SpinSliderBox::setMin(int min)
+{
+    ui->spinBox->setMinimum(min);
+    ui->horizontalSlider->setMinimum(min);
+}

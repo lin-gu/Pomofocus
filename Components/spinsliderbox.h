@@ -18,6 +18,9 @@ public:
     void setValue(int value);
     int getValue();
 
+    void setMax(int max);
+    void setMin(int min);
+
 private:
     Ui::SpinSliderBox *ui;
 };

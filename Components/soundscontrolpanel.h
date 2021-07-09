@@ -43,6 +43,9 @@ public:
 
     QMediaPlayer *player;
 
+signals:
+    void soundSelected();
+
 private slots:
     void on_volumeSlider_sliderMoved(int volume);
 

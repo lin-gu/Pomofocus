@@ -136,6 +136,8 @@ void SoundsControlPanel::on_selectedSound(const QString &text)
         disableProgressVolumeRepeat();
     else
         enableProgressVolumeRepeat();
+
+    emit this->soundSelected();
 }
 
 void SoundsControlPanel::on_volumeSlider_sliderMoved(int volume)

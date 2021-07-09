@@ -13,7 +13,10 @@ MainScene::MainScene(QWidget *parent)
 {
     ui->setupUi(this);
 
-    resize(475, 760);
+#ifdef Q_OS_WIN
+    resize(400, 900);
+#endif
+
     init();
 
     //初始化界面按钮音效

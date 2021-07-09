@@ -7,7 +7,6 @@ SettingsScene::SettingsScene(QWidget *parent) :
     ui(new Ui::SettingsScene)
 {
     ui->setupUi(this);
-    qDebug() << "进入设置场景";
 
     _applyBtnSound = new QSound(":/Sounds/button_apply.wav", this);
     _cancelBtnSound = new QSound(":/Sounds/button_cancel.wav", this);

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>475</width>
-    <height>752</height>
+    <height>760</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -43,7 +43,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="4">
+   <item row="1" column="0" colspan="3">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="frameShape">
       <enum>QFrame::Box</enum>
@@ -409,98 +409,18 @@
      </widget>
     </widget>
    </item>
-   <item row="0" column="2">
-    <widget class="QToolButton" name="settings_apply_btn">
-     <property name="font">
-      <font>
-       <family>Yuppy SC</family>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="text">
-      <string>应用设置</string>
-     </property>
-     <property name="icon">
-      <iconset resource="../res.qrc">
-       <normaloff>:/Icons/apply_button.png</normaloff>:/Icons/apply_button.png</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>44</width>
-       <height>32</height>
-      </size>
-     </property>
-     <property name="toolButtonStyle">
-      <enum>Qt::ToolButtonTextUnderIcon</enum>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="1">
-    <widget class="QToolButton" name="settings_cancel_btn">
-     <property name="font">
-      <font>
-       <family>Yuppy SC</family>
-       <pointsize>12</pointsize>
-      </font>
+    <spacer name="horizontalSpacer_5">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="text">
-      <string>取消返回</string>
-     </property>
-     <property name="icon">
-      <iconset resource="../res.qrc">
-       <normaloff>:/Icons/cancel_button.png</normaloff>:/Icons/cancel_button.png</iconset>
-     </property>
-     <property name="iconSize">
+     <property name="sizeHint" stdset="0">
       <size>
-       <width>44</width>
-       <height>32</height>
+       <width>40</width>
+       <height>20</height>
       </size>
      </property>
-     <property name="toolButtonStyle">
-      <enum>Qt::ToolButtonTextUnderIcon</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="3">
-    <widget class="QToolButton" name="tool_btn_settings_old">
-     <property name="font">
-      <font>
-       <family>Yuppy SC</family>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="toolTip">
-      <string/>
-     </property>
-     <property name="text">
-      <string>设置</string>
-     </property>
-     <property name="icon">
-      <iconset resource="../res.qrc">
-       <normaloff>:/Icons/settings_button.png</normaloff>:/Icons/settings_button.png</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>32</width>
-       <height>32</height>
-      </size>
-     </property>
-     <property name="toolButtonStyle">
-      <enum>Qt::ToolButtonTextUnderIcon</enum>
-     </property>
-     <property name="autoRaise">
-      <bool>true</bool>
-     </property>
-    </widget>
+    </spacer>
    </item>
   </layout>
  </widget>

@@ -12,9 +12,8 @@ MainScene::MainScene(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    //设置图标
-    this->setWindowIcon(QIcon(":/Icons/pomo_button_1.png"));
 
+    resize(475, 760);
     init();
 
     //初始化界面按钮音效
@@ -27,40 +26,12 @@ MainScene::MainScene(QWidget *parent)
     //默认进入"番茄时钟"页面
     ui->stackedWidget->setCurrentIndex(0);
 
-    //隐藏应用和取消按钮
-    ui->settings_apply_btn->hide();
-    ui->settings_cancel_btn->hide();
-    ui->tool_btn_settings_old->hide();
-
-
-    //设置整体透明度
-//    this->setAttribute(Qt::WA_WState_WindowOpacitySet);
-
+    //初始化计时器
     _timer = new QTimer(this);
 
     //点击"番茄时钟"按钮, 切换到"番茄时钟"页面
     connect(ui->tool_btn_clock, &QToolButton::clicked, [=](){
         _shutup();
-    });
-
-    //点击"设置"按钮, 切换到"设置"页面
-    connect(ui->tool_btn_settings_old, &QToolButton::clicked, [=](){
-        //播放设置按键点击音
-        _settingsBtnSound->play();
-        //停止播放一切声音
-        _shutup();
-        //进入设置界面
-        ui->stackedWidget->setCurrentIndex(1);
-        _store_current_settings();
-        //隐藏番茄钟按钮 显示应用和取消按钮
-        ui->tool_btn_clock->hide();
-        ui->settings_apply_btn->show();
-        ui->settings_cancel_btn->show();
-
-        //暂停计时
-        _stopTimer();
-        //暂停声音
-        _player->pause();
     });
 
     //点击"应用"按钮，切换到"番茄时钟"页面 加载setting的数据
@@ -92,8 +63,6 @@ MainScene::MainScene(QWidget *parent)
        _update_settings_as_backup();
        //显示番茄钟按钮 隐藏应用和取消按钮
        ui->tool_btn_clock->show();
-       //ui->settings_apply_btn->hide();
-       //ui->settings_cancel_btn->hide();
 
        //停止闹铃音乐控件的播放
        ui->alarm_sound_settings->player->stop();
@@ -253,6 +222,9 @@ MainScene::~MainScene()
 
 void MainScene::init()
 {
+    //设置图标
+    this->setWindowIcon(QIcon(":/Icons/pomo_button_1.png"));
+
     //初始化设置界面
     _settingsScene = new SettingsScene();
     //初始化内存设置数据
@@ -274,6 +246,10 @@ void MainScene::init()
 
     //初始化透明度滑动条
     ui->slider_window_opacity->setValue(_current_window_opacity);
+    ui->slider_window_opacity->setStyleSheet("QSlider::handle:horizontal{width:14px;background-color:rgb(255,255,255);margin:-6px 0px -6px 0px;border-radius:7px;}"
+                                             "QSlider::groove:horizontal{height:3px;background-color:rgb(219,219,219);}"
+                                             "QSlider::add-page:horizontal{background-color:rgb(219,219,219);}"
+                                             "QSlider::sub-page:horizontal{background-color:rgb(157,167,176);}");
 }
 
 
@@ -557,5 +533,4 @@ void MainScene::on_slider_window_opacity_valueChanged(int value)
 {
     _current_window_opacity = value;
     setWindowOpacity(qreal(qreal(value)/100));
-    qDebug() << "主窗口透明度: " << qreal(qreal(value)/100);
 }
